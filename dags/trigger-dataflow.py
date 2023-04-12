@@ -19,7 +19,7 @@ with DAG(
 
     dataflow_launch = BeamRunPythonPipelineOperator(
         task_id="start-python-job",
-        py_file="gs://cf-dataflow-jobfiles/dataflow.py",
+        py_file="gs://cf-dataflow-jobfiles/dataflow2.py",
         py_options=[],
         pipeline_options={},
         py_requirements=['apache-beam[gcp]==2.46.0'],
