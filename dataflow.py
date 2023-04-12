@@ -6,6 +6,7 @@ from apache_beam.options.pipeline_options import GoogleCloudOptions
 from apache_beam.runners.interactive.interactive_runner import InteractiveRunner
 import apache_beam.runners.interactive.interactive_beam as ib
 import google.auth
+import pandas as pd
 
 
 class ReadWordsFromText(beam.PTransform):
