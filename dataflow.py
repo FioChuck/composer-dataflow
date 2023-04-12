@@ -2,7 +2,7 @@ import re
 import apache_beam as beam
 from apache_beam.options import pipeline_options
 from apache_beam.options.pipeline_options import GoogleCloudOptions
-from apache_beam.runners import DataflowRunner
+# from apache_beam.runners import DataflowRunner
 from apache_beam.runners.interactive.interactive_runner import InteractiveRunner
 import apache_beam.runners.interactive.interactive_beam as ib
 import google.auth
