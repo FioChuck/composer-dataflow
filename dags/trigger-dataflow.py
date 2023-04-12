@@ -21,7 +21,7 @@ with DAG(
         task_id="start-python-job",
         py_file="gs://cf-dataflow-jobfiles/dataflow2.py",
         py_options=[],
-        pipeline_options={},
+        pipeline_options={'output': 'gs://cf-dataflow-temp/test.txt'},
         py_requirements=['apache-beam[gcp]==2.46.0'],
         py_interpreter='python3',
         py_system_site_packages=False,
