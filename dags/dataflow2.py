@@ -78,17 +78,17 @@ def run(argv=None, save_main_session=True):
         #        | "Read From BigQuery" >> beam.io.Read(bq_source)
         #        )
 
-        query_results = p | beam.io.Read(beam.io.BigQuerySource(
+        query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
             query='select count(*) from cf-data-analytics.market_data.googl'))
 
         # Read the text file[pattern] into a PCollection.
-        lines = p | 'Read' >> ReadFromText(known_args.input)
+        # lines = p | 'Read' >> ReadFromText(known_args.input)
 
-        counts = (
-            lines
-            | 'Split' >> (beam.ParDo(WordExtractingDoFn()).with_output_types(str))
-            | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
-            | 'GroupAndSum' >> beam.CombinePerKey(sum))
+        # counts = (
+        #     lines
+        #     | 'Split' >> (beam.ParDo(WordExtractingDoFn()).with_output_types(str))
+        #     | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
+        #     | 'GroupAndSum' >> beam.CombinePerKey(sum))
 
 #    # Format the counts into a PCollection of strings.
 #    def format_result(word, count):
