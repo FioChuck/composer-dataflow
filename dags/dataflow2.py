@@ -129,7 +129,7 @@ def run(argv=None, save_main_session=True):
     # e.g. dataflow_service_options=['enable_prime']
 
     # Create the Pipeline with the specified options.
-    with beam.Pipeline(options=beam_options) as pipeline:
+    with beam.Pipeline(options=beam_options) as p:
 
         #########################################
 
