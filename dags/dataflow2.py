@@ -103,6 +103,7 @@ def run(argv=None, save_main_session=True):
     # with beam.Pipeline(options=pipeline_options) as p:
 
     #########################################
+    # https://cloud.google.com/dataflow/docs/guides/setting-pipeline-options#launching_on
     import argparse
 
     import apache_beam as beam
@@ -133,18 +134,10 @@ def run(argv=None, save_main_session=True):
 
         #########################################
 
-        #     some_query = (
-        #         'select count(*) from cf-data-analytics.market_data.googl')
-
-        # bq_source = beam.io.BigQuerySource(query=some_query, use_standard_sql=True)
-        # out = (p
-        #        | "Read From BigQuery" >> beam.io.Read(bq_source)
-        #        )
-
         query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
             query='select count(*) from cf-data-analytics.market_data.googl'))
 
-        query_results | 'Write' >> WriteToText(args.output)
+        p | 'Write' >> WriteToText(query_results)
 
     # Read the text file[pattern] into a PCollection.
     # lines = p | 'Read' >> ReadFromText(known_args.input)
