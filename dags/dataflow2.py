@@ -70,22 +70,25 @@ def run(argv=None, save_main_session=True):
     # The pipeline will be run on exiting the with block.
     with beam.Pipeline(options=pipeline_options) as p:
 
-        some_query = (
-            'select count(*) from cf-data-analytics.market_data.googl')
+        #     some_query = (
+        #         'select count(*) from cf-data-analytics.market_data.googl')
 
-    bq_source = beam.io.BigQuerySource(query=some_query, use_standard_sql=True)
-    bread_transactions_counter = (p
-                                  | "Read From BigQuery" >> beam.io.Read(bq_source)
-                                  )
+        # bq_source = beam.io.BigQuerySource(query=some_query, use_standard_sql=True)
+        # out = (p
+        #        | "Read From BigQuery" >> beam.io.Read(bq_source)
+        #        )
 
-    # Read the text file[pattern] into a PCollection.
-    lines = p | 'Read' >> ReadFromText(known_args.input)
+        query_results = p | beam.io.Read(beam.io.BigQuerySource(
+            query='select count(*) from cf-data-analytics.market_data.googl'))
 
-    counts = (
-        lines
-        | 'Split' >> (beam.ParDo(WordExtractingDoFn()).with_output_types(str))
-        | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
-        | 'GroupAndSum' >> beam.CombinePerKey(sum))
+        # Read the text file[pattern] into a PCollection.
+        lines = p | 'Read' >> ReadFromText(known_args.input)
+
+        counts = (
+            lines
+            | 'Split' >> (beam.ParDo(WordExtractingDoFn()).with_output_types(str))
+            | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
+            | 'GroupAndSum' >> beam.CombinePerKey(sum))
 
 #    # Format the counts into a PCollection of strings.
 #    def format_result(word, count):
@@ -93,9 +96,9 @@ def run(argv=None, save_main_session=True):
 
 #     output = counts | 'Format' >> beam.MapTuple(format_result)
 
-#     # Write the output using a "Write" transform that has side effects.
-#     # pylint: disable=expression-not-assigned
-#     output | 'Write' >> WriteToText(known_args.output)
+    # Write the output using a "Write" transform that has side effects.
+    # pylint: disable=expression-not-assigned
+        query_results | 'Write' >> WriteToText(known_args.output)
 
 
 if __name__ == '__main__':
