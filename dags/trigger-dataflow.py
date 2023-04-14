@@ -1,7 +1,8 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.providers.apache.beam.operators.beam import (
-    BeamRunPythonPipelineOperator)
+    BeamRunPythonPipelineOperator, BeamRunnerType)
+
 
 args = {
     'owner': 'packt-developer',
@@ -18,6 +19,7 @@ with DAG(
 
     dataflow_launch = BeamRunPythonPipelineOperator(
         task_id="start-python-job",
+        runner=BeamRunnerType.DataflowRunner,
         py_file="gs://cf-cloud-composer-dags/dags/dataflow2.py",
         py_options=[],
         pipeline_options={},
@@ -25,7 +27,25 @@ with DAG(
         py_interpreter='python3',
         py_system_site_packages=False,
         dataflow_config={'location': 'us-central1'},
-    )
+    ),
+
+#     (
+#     task_id="start_python_job_async",
+#     runner=BeamRunnerType.DataflowRunner,
+#     py_file=GCS_PYTHON_SCRIPT,
+#     py_options=[],
+#     pipeline_options={
+#         "output": GCS_OUTPUT,
+#     },
+#     py_requirements=["apache-beam[gcp]==2.36.0"],
+#     py_interpreter="python3",
+#     py_system_site_packages=False,
+#     dataflow_config={
+#         "job_name": "start_python_job_async",
+#         "location": LOCATION,
+#         "wait_until_finished": False,
+#     },
+# )
 
     dataflow_launch
 
