@@ -27,7 +27,7 @@ with DAG(
         py_interpreter='python3',
         py_system_site_packages=False,
         dataflow_config={'location': 'us-central1'},
-    ),
+    )
 
 #     (
 #     task_id="start_python_job_async",
