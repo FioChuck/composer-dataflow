@@ -17,7 +17,7 @@ with DAG(
     dag_id='trigger-dataflow',
     default_args=args,
     schedule_interval='@once',  # set schedule - at every tenth minute
-    start_date=days_ago(1),
+    start_date=days_ago(0),
     is_paused_upon_creation=True
 
 ) as dag:
