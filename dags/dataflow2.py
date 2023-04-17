@@ -5,7 +5,7 @@ import argparse
 import logging
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.options.combiners import Sample
+from apache_beam.transforms.combiners import Sample
 
 
 def run(argv=None, save_main_session=True):
