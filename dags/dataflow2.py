@@ -133,11 +133,13 @@ def run(argv=None, save_main_session=True):
     with beam.Pipeline(options=beam_options) as p:
 
         #########################################
+        my_column = (p | 'QueryTableStdSQL' >> beam.io.ReadFromBigQuery(
+            query='SELECT * FROM market_data.googl', use_standard_sql=True))
 
-        query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
-            query='select count(*) from cf-data-analytics.market_data.googl'))
+    # query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
+    #     query='select count(*) from cf-data-analytics.market_data.googl'))
 
-        # p | 'Write' >> WriteToText(query_results)
+    # p | 'Write' >> WriteToText(query_results)
 
     # Read the text file[pattern] into a PCollection.
     # lines = p | 'Read' >> ReadFromText(known_args.input)
