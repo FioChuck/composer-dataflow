@@ -136,14 +136,17 @@ def run(argv=None, save_main_session=True):
         my_column = (p | 'QueryTableStdSQL' >> beam.io.ReadFromBigQuery(
             query='SELECT * EXCEPT(trade_condition) FROM market_data.googl_latest_trade_v', use_standard_sql=True))
 
-        # stats_schema = ','.join(['AIRPORT:string,AVG_ARR_DELAY:float,AVG_DEP_DELAY:float',
-        #                          'NUM_FLIGHTS:int64,START_TIME:timestamp,END_TIME:timestamp'])
-        # (my_column
-        #  | 'bqout' >> beam.io.WriteToBigQuery(
-        #             'dsongcp.streaming_delays', schema=stats_schema,
-        #             create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED
-        #         )
-        #  )
+        print(type(my_column))
+
+        stats_schema = ','.join(
+            ['symbol:string,datetime:DATETIME,tm:TIME,dt:DATE,exchange_code:STRING,trade_price:FLOAT,trade_size:INTEGER,trade_condition:STRING,trade_id:INTEGER,tape:STRING'])
+
+        (my_column
+         | 'bqout' >> beam.io.WriteToBigQuery(
+             'market_data.stream_out', schema=stats_schema,
+             create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED
+         )
+         )
 
     # query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
     #     query='select count(*) from cf-data-analytics.market_data.googl'))
