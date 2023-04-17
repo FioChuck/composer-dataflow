@@ -4,6 +4,7 @@ from airflow.providers.apache.beam.hooks.beam import BeamRunnerType
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.providers.apache.beam.operators.beam import BeamRunPythonPipelineOperator
+from airflow.operators.python import PythonOperator
 
 
 args = {
