@@ -139,7 +139,7 @@ def run(argv=None, save_main_session=True):
         print(type(my_column))
 
         stats_schema = ','.join(
-            ['symbol:string,datetime:DATETIME,tm:TIME,dt:DATE,exchange_code:STRING,trade_price:FLOAT,trade_size:INTEGER,trade_condition:STRING,trade_id:INTEGER,tape:STRING'])
+            ['symbol:string,datetime:DATETIME,tm:TIME,dt:DATE,exchange_code:STRING,trade_price:FLOAT,trade_size:INTEGER,trade_id:INTEGER,tape:STRING'])
 
         (my_column
          | 'bqout' >> beam.io.WriteToBigQuery(
