@@ -10,6 +10,9 @@ args = {
     'owner': 'packt-developer',
 }
 
+# def test():
+
+
 with DAG(
     dag_id='trigger-dataflow',
     default_args=args,
@@ -35,13 +38,24 @@ with DAG(
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
     # https://github.com/apache/airflow/blob/providers-apache-beam/4.3.0/tests/system/providers/apache/beam/example_python_dataflow.py
 
-    wait_for_python_job_async_done = DataflowJobStatusSensor(
-        task_id="wait-for-python-job-async-done",
-        job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['dataflow_job_config']['job_id']}}",
-        expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
-        project_id='cf-data-analytics',
-        location='us-central1',
-    )
+    def pull_function(**kwargs):
+        ti = kwargs['ti']
+        ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
+        print(ls)
+
+    pull_task = PythonOperator(
+        task_id='pull_task',
+        python_callable=pull_function,
+        provide_context=True,
+        dag=DAG)
+
+    # wait_for_python_job_async_done = DataflowJobStatusSensor(
+    #     task_id="wait-for-python-job-async-done",
+    #     job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['dataflow_job_config']['job_id']}}",
+    #     expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
+    #     project_id='cf-data-analytics',
+    #     location='us-central1',
+    # )
 
 
 ######################################
@@ -75,7 +89,7 @@ with DAG(
     # )
 ######################################
 
-    dataflow_launch >> wait_for_python_job_async_done
+    dataflow_launch >> pull_task
 
 if __name__ == "__main__":
     dag.cli()
