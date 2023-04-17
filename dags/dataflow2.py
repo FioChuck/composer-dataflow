@@ -134,7 +134,16 @@ def run(argv=None, save_main_session=True):
 
         #########################################
         my_column = (p | 'QueryTableStdSQL' >> beam.io.ReadFromBigQuery(
-            query='SELECT * FROM market_data.googl', use_standard_sql=True))
+            query='SELECT * EXCEPT(trade_condition) FROM market_data.googl_latest_trade_v', use_standard_sql=True))
+
+        # stats_schema = ','.join(['AIRPORT:string,AVG_ARR_DELAY:float,AVG_DEP_DELAY:float',
+        #                          'NUM_FLIGHTS:int64,START_TIME:timestamp,END_TIME:timestamp'])
+        # (my_column
+        #  | 'bqout' >> beam.io.WriteToBigQuery(
+        #             'dsongcp.streaming_delays', schema=stats_schema,
+        #             create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED
+        #         )
+        #  )
 
     # query_results = p | 'Read' >> beam.io.Read(beam.io.BigQuerySource(
     #     query='select count(*) from cf-data-analytics.market_data.googl'))
