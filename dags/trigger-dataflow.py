@@ -29,7 +29,7 @@ with DAG(
         py_interpreter='python3',
         py_system_site_packages=False,
         dataflow_config={'location': 'us-central1',
-                         'wait_until_finished': False, 'job_name': "job-abc"}
+                         'wait_until_finished': False, 'job_name': "job-ac"}
     )
 
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
@@ -37,7 +37,7 @@ with DAG(
 
     wait_for_python_job_async_done = DataflowJobStatusSensor(
         task_id="wait-for-python-job-async-done",
-        job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['id']}}",
+        job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['dataflow_job_config']['job_id']}}",
         expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
         project_id='cf-data-analytics',
         location='us-central1',
