@@ -17,7 +17,7 @@ def run(argv=None, save_main_session=True):
         beam_args,
         runner='DataflowRunner',
         project='cf-data-analytics',
-        job_name='unique-job-name',
+        job_name='job-abc',
         temp_location='gs://cf-dataflow-temp',
         region='us-central1')
 
