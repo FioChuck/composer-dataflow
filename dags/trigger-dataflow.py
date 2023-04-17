@@ -37,7 +37,7 @@ with DAG(
 
     wait_for_python_job_async_done = DataflowJobStatusSensor(
         task_id="wait-for-python-job-async-done",
-        job_id="job-abc",
+        job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['id']}}",
         expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
         project_id='cf-data-analytics',
         location='us-central1',
