@@ -39,16 +39,16 @@ with DAG(
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
     # https://github.com/apache/airflow/blob/providers-apache-beam/4.3.0/tests/system/providers/apache/beam/example_python_dataflow.py
 
-    def pull_function(ti) -> None:
+    # def pull_function(ti) -> None:
 
-        ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
-        print(ls)
+    #     ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
+    #     print(ls)
 
-    pull_task = PythonOperator(
-        task_id='pull_task',
-        python_callable=pull_function,
-        provide_context=True,
-        dag=DAG)
+    # pull_task = PythonOperator(
+    #     task_id='pull_task',
+    #     python_callable=pull_function,
+    #     provide_context=True,
+    #     dag=DAG)
 
     # wait_for_python_job_async_done = DataflowJobStatusSensor(
     #     task_id="wait-for-python-job-async-done",
