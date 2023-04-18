@@ -16,9 +16,7 @@ with DAG(
     default_args=args,
     schedule_interval=None,
     start_date=days_ago(2),
-    is_paused_upon_creation=False,
-    catchup=False
-
+    is_paused_upon_creation=False
 ) as dag:
 
     dataflow_launch = BeamRunPythonPipelineOperator(
@@ -42,7 +40,7 @@ with DAG(
     #     ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
     #     print(ls)
 
-    def pull_xcomf(**context):
+    def pull_func(**context):
         out = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
         print('here')
         print(type(out))
@@ -50,7 +48,7 @@ with DAG(
 
     pull_task = PythonOperator(
         task_id='pull_task',
-        python_callable=pull_xcomf,
+        python_callable=pull_func,
         provide_context=True,
         dag=dag)
 
