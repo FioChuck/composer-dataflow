@@ -59,7 +59,7 @@ with DAG(
         location='us-central1',
     )
 
-    dataflow_launch >> pull_task
+    dataflow_launch >> pull_task >> wait_for_python_job_async_done
 
 if __name__ == "__main__":
     dag.cli()
