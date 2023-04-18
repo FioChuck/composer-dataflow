@@ -1,7 +1,7 @@
 from airflow.providers.google.cloud.hooks.dataflow import DataflowJobStatus
 from airflow.providers.google.cloud.sensors.dataflow import DataflowJobStatusSensor
 from airflow.providers.apache.beam.hooks.beam import BeamRunnerType
-from airflow import DAG, XComArg
+from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.providers.apache.beam.operators.beam import BeamRunPythonPipelineOperator
 from airflow.operators.python import PythonOperator
@@ -39,7 +39,7 @@ with DAG(
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
     # https://github.com/apache/airflow/blob/providers-apache-beam/4.3.0/tests/system/providers/apache/beam/example_python_dataflow.py
 
-    def pull_function(ti, **kwargs) -> None:
+    def pull_function(ti) -> None:
 
         ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
         print(ls)
