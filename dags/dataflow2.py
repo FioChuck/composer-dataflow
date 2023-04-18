@@ -7,6 +7,7 @@ import logging
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.transforms.combiners import Sample
+import time
 
 
 def run(argv=None, save_main_session=True):
@@ -31,6 +32,10 @@ def run(argv=None, save_main_session=True):
         (p_col1
          | 'sample' >> Sample.FixedSizeGlobally(10)
          | 'print' >> beam.Map(print))
+
+        print('entering sleep')
+        time.sleep(300)  # five minutes
+        print('finished sleep')
 
         stats_schema = ','.join(
             ['symbol:string,datetime:DATETIME,tm:TIME,dt:DATE,exchange_code:STRING,trade_price:FLOAT,trade_size:INTEGER,trade_id:INTEGER,tape:STRING'])
