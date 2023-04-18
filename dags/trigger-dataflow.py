@@ -39,9 +39,9 @@ with DAG(
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
     # https://github.com/apache/airflow/blob/providers-apache-beam/4.3.0/tests/system/providers/apache/beam/example_python_dataflow.py
 
-    def pull_function(**kwargs):
-        ti = kwargs['ti']
-        ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
+    def pull_function():
+
+        ls = task.xcom_pull(task_ids='beam-bq-aggregation')
         print(ls)
 
     pull_task = PythonOperator(
