@@ -8,7 +8,7 @@ from airflow.operators.python import PythonOperator
 
 
 args = {
-    'owner': 'packt-developer',
+    'owner': 'packt-developer'
 }
 
 # def test():
