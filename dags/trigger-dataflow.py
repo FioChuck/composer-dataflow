@@ -45,7 +45,7 @@ with DAG(
     #     print(ls)
 
     def func_archive_s3_file(**context):
-        test = context['ti'].xcom_pull(task_ids='submit_file_to_spark')
+        test = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
 
     pull_task = PythonOperator(
         task_id='pull_task',
