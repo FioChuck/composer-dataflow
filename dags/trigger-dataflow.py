@@ -36,13 +36,11 @@ with DAG(
     # https://airflow.apache.org/docs/apache-airflow-providers-google/5.0.0/operators/cloud/dataflow.html#howto-operator-dataflowjobstatussensor
     # https://github.com/apache/airflow/blob/providers-apache-beam/4.3.0/tests/system/providers/apache/beam/example_python_dataflow.py
 
-    # def pull_function(ti) -> None:
-
-    #     ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
-    #     print(ls)
+    # https://airflow.apache.org/docs/apache-airflow/1.10.1/concepts.html?highlight=xcom
 
     def pull_func(**context):
-        out = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
+        out = context['ti'].xcom_pull(
+            task_ids='beam-bq-aggregation')['dataflow_job_id']
         print('here')
         print(type(out))
         print(out)
@@ -60,38 +58,6 @@ with DAG(
     #     project_id='cf-data-analytics',
     #     location='us-central1',
     # )
-
-
-######################################
-    # start_python_job_dataflow_runner_async = BeamRunPythonPipelineOperator(
-    #     task_id="start_python_job_dataflow_runner_async",
-    #     runner="DataflowRunner",
-    #     py_file=GCS_PYTHON_DATAFLOW_ASYNC,
-    #     pipeline_options={
-    #         "tempLocation": GCS_TMP,
-    #         "stagingLocation": GCS_STAGING,
-    #         "output": GCS_OUTPUT,
-    #     },
-    #     py_options=[],
-    #     py_requirements=["apache-beam[gcp]==2.26.0"],
-    #     py_interpreter="python3",
-    #     py_system_site_packages=False,
-    #     dataflow_config=DataflowConfiguration(
-    #         job_name="{{task.task_id}}",
-    #         project_id=GCP_PROJECT_ID,
-    #         location="us-central1",
-    #         wait_until_finished=False,
-    #     ),
-    # )
-
-    # wait_for_python_job_dataflow_runner_async_done = DataflowJobStatusSensor(
-    #     task_id="wait-for-python-job-async-done",
-    #     job_id="{{task_instance.xcom_pull('start_python_job_dataflow_runner_async')['dataflow_job_id']}}",
-    #     expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
-    #     project_id=GCP_PROJECT_ID,
-    #     location="us-central1",
-    # )
-######################################
 
     dataflow_launch >> pull_task
 
