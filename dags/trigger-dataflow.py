@@ -48,7 +48,7 @@ with DAG(
         task_id='pull_task',
         python_callable=pull_function,
         provide_context=True,
-        dag=DAG)
+        dag=dag)
 
     # wait_for_python_job_async_done = DataflowJobStatusSensor(
     #     task_id="wait-for-python-job-async-done",
