@@ -47,6 +47,7 @@ with DAG(
 
     def func_archive_s3_file(**context):
         out = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
+        print('here')
         print(type(out))
         print(out)
 
