@@ -19,7 +19,8 @@ with DAG(
     default_args=args,
     schedule_interval='@once',  # set schedule - at every tenth minute
     start_date=days_ago(0),
-    is_paused_upon_creation=True
+    is_paused_upon_creation=True,
+    catchup=False
 
 ) as dag:
 
@@ -45,7 +46,9 @@ with DAG(
     #     print(ls)
 
     def func_archive_s3_file(**context):
-        test = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
+        out = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
+        print(type(out))
+        print(out)
 
     pull_task = PythonOperator(
         task_id='pull_task',
