@@ -45,10 +45,10 @@ jobs:
       - name: "install kubectl"
         run: "gcloud components install kubectl"
 
-      # - name: "delete cloud composer dag from airflow"
-      #   run: "gcloud composer environments run etl-orchestration-pool \
-      #     --location us-central1 \
-      #     dags delete -- trigger-dataflow"
+      - name: "delete cloud composer dag from airflow"
+        run: "gcloud composer environments run etl-orchestration-pool \
+          --location us-central1 \
+          dags delete -- trigger-dataflow"
 
       - name: "deploy cloud composer dag"
         run: "gcloud composer environments storage dags import \
