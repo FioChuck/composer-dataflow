@@ -2,7 +2,7 @@ from airflow.providers.google.cloud.hooks.dataflow import DataflowJobStatus
 from airflow.providers.google.cloud.sensors.dataflow import DataflowJobStatusSensor
 from airflow.providers.apache.beam.hooks.beam import BeamRunnerType
 from airflow import DAG
-# from airflow.utils.dates import days_ago
+from airflow.utils.dates import days_ago
 from airflow.providers.apache.beam.operators.beam import BeamRunPythonPipelineOperator
 from airflow.operators.python import PythonOperator
 
@@ -10,9 +10,6 @@ from airflow.operators.python import PythonOperator
 args = {
     'owner': 'packt-developer'
 }
-
-# def test():
-
 
 with DAG(
     dag_id='trigger-dataflow',
@@ -45,7 +42,7 @@ with DAG(
     #     ls = ti.xcom_pull(task_ids='beam-bq-aggregation')
     #     print(ls)
 
-    def func_archive_s3_file(**context):
+    def pull_xcomf(**context):
         out = context['ti'].xcom_pull(task_ids='beam-bq-aggregation')
         print('here')
         print(type(out))
@@ -53,7 +50,7 @@ with DAG(
 
     pull_task = PythonOperator(
         task_id='pull_task',
-        python_callable=func_archive_s3_file,
+        python_callable=pull_xcomf,
         provide_context=True,
         dag=dag)
 
