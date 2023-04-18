@@ -2,7 +2,7 @@ from airflow.providers.google.cloud.hooks.dataflow import DataflowJobStatus
 from airflow.providers.google.cloud.sensors.dataflow import DataflowJobStatusSensor
 from airflow.providers.apache.beam.hooks.beam import BeamRunnerType
 from airflow import DAG
-from airflow.utils.dates import days_ago
+# from airflow.utils.dates import days_ago
 from airflow.providers.apache.beam.operators.beam import BeamRunPythonPipelineOperator
 from airflow.operators.python import PythonOperator
 
@@ -18,7 +18,7 @@ with DAG(
     dag_id='trigger-dataflow',
     default_args=args,
     schedule_interval='None',
-    # start_date=days_ago(2),
+    start_date=days_ago(2),
     is_paused_upon_creation=False,
     catchup=False
 
