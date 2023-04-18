@@ -51,13 +51,13 @@ with DAG(
         provide_context=True,
         dag=dag)
 
-    # wait_for_python_job_async_done = DataflowJobStatusSensor(
-    #     task_id="wait-for-python-job-async-done",
-    #     job_id="{{task_instance.xcom_pull('beam-bq-aggregation')['dataflow_job_config']['job_id']}}",
-    #     expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
-    #     project_id='cf-data-analytics',
-    #     location='us-central1',
-    # )
+    wait_for_python_job_async_done = DataflowJobStatusSensor(
+        task_id="wait-for-python-job-async-done",
+        job_id="{{task_instance.xcom_pull(task_ids='beam-bq-aggregation')['dataflow_job_id']}}",
+        expected_statuses={DataflowJobStatus.JOB_STATE_DONE},
+        project_id='cf-data-analytics',
+        location='us-central1',
+    )
 
     dataflow_launch >> pull_task
 
